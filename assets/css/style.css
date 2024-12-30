@@ -27,6 +27,7 @@ header {
 }
 
 .search-input {
+  position: relative;
   width: 100%;
   height: 100%;
   padding: 10px;
@@ -36,6 +37,23 @@ header {
   font-family: Arial, sans-serif;
 }
 
+.search-button{
+  position: absolute;
+  background-color: black;
+  color: white;
+  width: 51px;
+  height: 52px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  right: -10px;
+}
+
+.search-button:hover {
+  color: black;
+  background-color: #FFD15B;
+}
 main {
   max-width: 1440px;
   margin: 0 auto;
@@ -51,7 +69,7 @@ main {
 }
 
 .recipes-select select {
-  width:15%; 
+  width:23%; 
   padding: 8px;
   font-size: 14px;
   background-color: white;
@@ -59,10 +77,20 @@ main {
   margin-top: 20px;
   box-shadow: none;
 }
+
+.display-div{
+  display: flex;
+}
 .recipes-select {
   display: flex;
   gap: 60px;
   margin-left: 100px;
+}
+.recipe-count{
+  font-weight: bold;
+  font-size: 21px;
+  margin-top: 28px;
+  margin-left: 240px;
 }
 
 
@@ -81,11 +109,24 @@ background-color: white;
   
 }
 .recipeCardImage{
+  position: relative;
   width: 100%;
   height: 253px;
   object-fit: cover;
   border-top-left-radius: 20px; 
   border-top-right-radius: 20px; 
+}
+.recipe-time{
+position: absolute;
+background-color: #FFD15B;
+font-size: 12px;
+z-index: 1;
+padding: 5px;
+padding-left: 10px;
+padding-right: 10px;
+border-radius: 20px;
+margin-top: 10px;
+margin-left: 250px;
 }
 .descriptionDiv{
   padding: 25px;

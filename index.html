@@ -5,12 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Les petits plats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen"
-      href="./assets/css/style.css"
-    />
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script src="./assets/js/script.js" defer></script>
   </head>
   <body>
@@ -28,14 +25,19 @@
 
       <div class="search-bar">
         <input type="text" placeholder="Recherchez votre recette, ingrédient,..." class="search-input">
-        <span class="search-icon">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </span>
-    </div>
+        
+        <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+
     </header>
+
     <main>
+      <div class="display-div">
         <div class="recipes-select"></div>
-        <div class="recipes-container"></div>
+        <div class="recipe-count"></div>
+      </div>
+      <div class="recipes-container"></div>
+      
     </main>
   </body>
 </html>
