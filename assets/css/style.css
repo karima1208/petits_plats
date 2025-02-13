@@ -1,163 +1,120 @@
-header {
-  background-image: url("../images/backgrounds/bg.jpeg");
-  background-size: cover;
-  background-position: center;
-  height: 667px;
-}
-  /* Logo */
-.logo {
-  position: absolute;
-  top: 51px;
-  left: 69px;
-}
-  
-.logo-img {
-  width: 207px;
-  height: 25.26px;
-}
-/* Barre de recherche */
-.search-bar {
-  position: absolute;
-  top: 450px;
-  left: 150px;
-  width: 954px;
-  height: 50px;
-  text-align: center;
-  z-index: 1; /* Pour être au-dessus de l'image */
+body {
+    font-family: "Manrope", serif;
+    font-size: 14px;
+    font-style: normal;
+    background-color: #EDEDED;
 }
 
-.search-input {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-family: Arial, sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
-.search-button{
-  position: absolute;
-  background-color: black;
-  color: white;
-  width: 51px;
-  height: 52px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  top: 10px;
-  right: -10px;
+.header-bg {
+    background-image: url('../images/lampos-aritonang-24gR_9lCdes-unsplash\ 1.png');
+    background-size: cover;
 }
 
-.search-button:hover {
-  color: black;
-  background-color: #FFD15B;
-}
-main {
-  max-width: 1440px;
-  margin: 0 auto;
-  background-color: rgb(235, 230, 230);
+.header-content {
+    height: 550px;
 }
 
-.recipes-container{
-  display: flex;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  padding: 0 75px;
- 
+.header-content .btn:active,
+.filter-results .btn {
+    background-color: #FFD15B;
+    color: #000;
+    border: none;
 }
 
-.recipes-select select {
-  width:23%; 
-  padding: 8px;
-  font-size: 14px;
-  background-color: white;
-  border-radius: 5px;
-  margin-top: 20px;
-  box-shadow: none;
+.text-yellow {
+    color: #FFD15B;
 }
 
-.display-div{
-  display: flex;
-}
-.recipes-select {
-  display: flex;
-  gap: 60px;
-  margin-left: 100px;
-}
-.recipe-count{
-  font-weight: bold;
-  font-size: 21px;
-  margin-top: 28px;
-  margin-left: 240px;
+.page-title {
+    font-size: 2.75rem;
 }
 
-
-.recipeCardContainer{
-  width: calc(100% / 3);
-  box-sizing: border-box;
-  padding: 25px;
- 
- 
- 
+.search-form button {
+    margin-top: -85px;
+    z-index: 10;
+    position: relative;
+    height: 48px;
+    margin-right: 5px;
 }
-.recipeCard{
-  
-border-radius: 20px;
-background-color: white;
-  
+.fa-circle-xmark {
+    display: none;
 }
-.recipeCardImage{
-  position: relative;
-  width: 100%;
-  height: 253px;
-  object-fit: cover;
-  border-top-left-radius: 20px; 
-  border-top-right-radius: 20px; 
+.filter-results button:hover {
+    font-weight: 700;
 }
-.recipe-time{
-position: absolute;
-background-color: #FFD15B;
-font-size: 12px;
-z-index: 1;
-padding: 5px;
-padding-left: 10px;
-padding-right: 10px;
-border-radius: 20px;
-margin-top: 10px;
-margin-left: 250px;
+.filter-results button:hover i.fa-xmark {
+    display: none;
 }
-.descriptionDiv{
-  padding: 25px;
-}
-.header-hover {
-  background-color: rgba(0, 0, 0, 0.3);
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.filter-results button:hover i.fa-circle-xmark {
+    display: block;
 }
 
-h1 {
-  color: #ffd15b;
-  font-family: Anton;
-  font-size: 44px;
-  font-weight: 400;
-  line-height: 66.24px;
-  text-align: center;
+.card {
+    border-radius: 21px;
+    overflow: hidden;
+    border: none;
+    min-height: 770px;
 }
 
-.recipeDescription{
-  font-size: 14px;
-  overflow: hidden; /* Cache le contenu qui dépasse */
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; /* Limite le contenu à 5 lignes */
-}
-.recipeDescriptionTitle, .ingredientsTitle {
-color: #7A7A7A;
-font-family: Manrope;
-font-size: 12px;
-text-decoration-skip-ink: none;
+.card-header img {
+    height: 253px;
+    overflow: hidden;
+    object-fit: cover;
 }
 
+.card-subtitle.text-muted {
+    font-size: 12px;
+    color: #7A7A7A;
+    font-weight: 400;
+}
+
+.card .badge {
+    margin-left: 78%;
+    margin-top: 15px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-menu .dropdown-menu-items {
+    max-height: 250px; 
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+}
+.dropdown-menu .dropdown-menu-items::-webkit-scrollbar {
+    display: none;
+}
+.dropdown-menu .input-group-text {
+    position: absolute;
+    background-color: transparent;
+    border: 0 none;
+    margin-left: 73% !important;
+    margin-top: 5px;
+    color: #dedede;
+    z-index: 10;
+}
+a.dropdown-item:hover {
+    background-color: rgba(255, 209, 91, 1);
+}
+
+p.card-text {
+    height: 109px;
+    overflow: hidden;
+}
