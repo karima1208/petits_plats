@@ -5,18 +5,20 @@ import { Filter } from "./classes/filter.js";
 class App {
   filterChoices = null;
   recipes = [];
-  filteredRecipes = [];
   filterNames = ["ingredients", "appliances", "ustensils"];
 
   constructor() {
     // récupérer la liste des Recipes
     const recipeFactory = new RecipeFactory();
     this.recipes = recipeFactory.getRecipes(recipesData);
-    this.filteredRecipes = this.recipes;
     this.filterChoices = new Filter();
   }
 
   init() {
+    // récupérer les valeurs des filtres
+    const recipeFactory = new RecipeFactory();
+    const filtersData = recipeFactory.getFilters(this.recipes);
+
     // afficher les recettes
     this.buildRecipes(this.recipes);
 
@@ -30,7 +32,7 @@ class App {
     this.initGeneralSearchAction();
 
     //ajouter le listner sur les champs de recherche des menus du filtre
-    this.initFilterSearchAction();
+    this.initFilterSearchAction(filtersData, this.recipes);
 
     // afficher le nombre total des recettes après le filtre
     this.displayTotalRecipes(this.recipes);
@@ -168,38 +170,26 @@ class App {
     const filtersButtons = document.querySelectorAll(".filter-button");
     filtersButtons.forEach((filtersButton) => {
       filtersButton.addEventListener("click", (event) => {
+        this.closeAllDropdowns();
+
         const dopdownMenu = event.target
           .closest(".dropdown")
           .querySelector(".dropdown-menu");
-        const chevron = event.target
-          .closest("button")
-          .querySelector(".chevron");
-
         if (dopdownMenu.style.display === "none") {
-          this.closeAllDropdowns();
           dopdownMenu.style.display = "block";
-          chevron.classList.remove("fa-chevron-down");
-          chevron.classList.add("fa-chevron-up");
         } else {
           dopdownMenu.style.display = "none";
-          chevron.classList.remove("fa-chevron-up");
-          chevron.classList.add("fa-chevron-down");
         }
       });
     });
 
     // fermer le menu si on clique dehors
-    window.addEventListener("click", (event) => {
+    window.addEventListener("click", function (event) {
       let menus = document.querySelectorAll(".dropdown-menu");
       menus.forEach((menu) => {
         if (!event.target.closest(".dropdown")) {
           menu.style.display = "none";
-          this.closeDropdownsChevrons();
         }
-        // vider le champs de recherche des filtres
-        const inputfilterSearch = menu.querySelector("input.form-control");
-        inputfilterSearch.value = null;
-        this.buildfilters(this.filteredRecipes);
       });
     });
   }
@@ -210,30 +200,12 @@ class App {
     allDropdownsMenu.forEach((dropdown) => {
       dropdown.style.display = "none";
     });
-    this.closeDropdownsChevrons();
-  }
-
-  closeDropdownsChevrons() {
-    const chevrons = document.querySelectorAll(".chevron");
-    chevrons.forEach((chevron) => {
-      chevron.classList.remove("fa-chevron-up");
-      chevron.classList.add("fa-chevron-down");
-    });
   }
 
   // initialiser le addEventListener pour la recherche principale
   initGeneralSearchAction() {
     const generalSearchInput = document.querySelector("form.search-form input");
     generalSearchInput.addEventListener("input", (event) => {
-      // Supprime les caractères non valides de la saisie
-      const regex = /^[a-zA-Z0-9 \-'()]*$/;
-      const value = event.target.value;
-
-      if (!regex.test(value)) {
-        // Supprimer le dernier caractère non valide
-        event.target.value = value.slice(0, -1);
-      }
-
       const searchText = event.target.value.toLowerCase();
 
       //ne rien faire si le texte est inférieur à 3 caractères
@@ -242,13 +214,12 @@ class App {
       } else {
         this.filterChoices.general = searchText;
       }
+
       this.whenFilterChanged();
     });
   }
 
-  initFilterSearchAction() {
-    const recipeFactory = new RecipeFactory();
-    const filtersData = recipeFactory.getFilters(this.filteredRecipes);
+  initFilterSearchAction(filtersData, recipes) {
     let filteredData = [];
     const filterInputs = document.querySelectorAll(
       ".filters input.form-control"
@@ -279,8 +250,46 @@ class App {
         }
 
         this.initFilterChoiceAction();
+        // filtrer les recettes selon le texte de recherche
+        this.filterRecipes(searchText, recipes);
       });
     });
+  }
+
+  // afficher les recettes filtrées
+
+  filterRecipes(searchText, recipes) {
+    if (!searchText) return;
+    searchText = searchText.toLowerCase();
+    const filteredRecipes = recipes.filter((recipe) => {
+      const recipeNameMatch = recipe.name?.toLowerCase().includes(searchText);
+      const ingredientsMatch =
+        recipe.ingredients &&
+        recipe.ingredients.some((ingredient) =>
+          ingredient.ingredient?.toLowerCase().includes(searchText)
+        );
+      const ustensilsMatch =
+        recipe.ustensils &&
+        recipe.ustensils.some((ustensil) =>
+          ustensil?.toLowerCase().includes(searchText)
+        );
+      const appliancesMatch =
+        recipe.appliances &&
+        recipe.appliance.some((appliance) =>
+          appliance?.toLowerCase().includes(searchText)
+        );
+      if (
+        recipeNameMatch ||
+        ingredientsMatch ||
+        ustensilsMatch ||
+        appliancesMatch
+      ) {
+        return recipe;
+      }
+    });
+    const recipesContainer = document.querySelector(".recipes .row");
+    recipesContainer.innerHTML = "";
+    this.buildRecipes(filteredRecipes);
   }
 
   // afficher les recettes filtrées
@@ -335,24 +344,22 @@ class App {
   whenFilterChanged() {
     // filtrer les recettes
     const recipeFactory = new RecipeFactory();
-    this.filteredRecipes = recipeFactory.filterRecipes(
+    const filteredRecipes = recipeFactory.filterRecipes(
       this.recipes,
       this.filterChoices
     );
 
     // afficher les recettes filtrées
-    this.buildRecipes(this.filteredRecipes);
+    this.buildRecipes(filteredRecipes);
 
     //reconstuire les filtres suivant les recettes filtées
-    this.buildfilters(this.filteredRecipes);
-
-    this.initFilterSearchAction();
+    this.buildfilters(filteredRecipes);
 
     // afficher les résultats des choix des 3 filtres
     this.buildFilterResults();
 
     //afficher le nombre de résultat
-    this.displayTotalRecipes(this.filteredRecipes);
+    this.displayTotalRecipes(filteredRecipes);
   }
 }
 
